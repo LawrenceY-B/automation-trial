@@ -41,20 +41,14 @@ const test = async (url: string, page: Page) => {
   await iframe!.waitForSelector("#menuId30");
   await iframe!.click("#menuId30");
 
-  // Switch to the second iframe
-  await page.waitForSelector("#F3");
-  const iframe2Handle = await page.$("#F3");
-  const iframe2 = await iframe2Handle!.contentFrame();
-  await iframe2!.waitForSelector("embed");
+  await page.waitForNetworkIdle(); ;
+  for (let i= 0 ; i<=8 ;i++ ){
+  await page.keyboard.press("Tab");
+    if (i==8){
+      await page.keyboard.press("Enter");
+    }
+  }
 
-  await iframe2?.page().waitForNetworkIdle({ timeout: 9000 });
-  await iframe2?.page().screenshot({ path: "trial/example.png", fullPage: true });
-  await page.pdf({ path: "trial/hn.pdf", format: "A4" });
-  const trial = await iframe2?.evaluate(() => {
-    const embed = document.querySelector("embed");
-    return embed ? embed.outerHTML : undefined;
-  });
-  console.log(trial);
 
  
   
